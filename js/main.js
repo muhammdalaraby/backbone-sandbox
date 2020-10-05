@@ -5,18 +5,10 @@
 
 /*
 |--------------------------------------------------------------------------
-| Collections :- a Set of models
+| Views
 |--------------------------------------------------------------------------
+| Responsible for:
+|||| rendering the content
+|||| handling model and DOM events
 */
-// Connecting to the server
 
-let Song = Backbone.Model.extend();
-
-let Songs = Backbone.Collection.extend({
-    model:Song,
-    url:"api/spongs",
-});
-
-// Fetch data for the server
-let songs =  new Songs();
-songs.fetch();
