@@ -13,28 +13,23 @@
 */
 
 // Create  new song model
-let Song = Backbone.Model.extend();
+let Song = Backbone.Model.extend({
+    defaults:{
+        listeners : 0
+    }
+});
 
 // Create new song view
 let SongView = Backbone.View.extend({
   
-    // Create list event to handle Listen button click
-    events:{
-        // "click .listen":"onClick",
-        "click":"onClick",
-        "click .bookMark": "clickBookMark",
+    // Update listeners number upon any change in model
+    initialize:function(){
+        // this.model.on("change",any custom method,this);
+        this.model.on("change",this.render,this);
     },
 
-    // Click function
-    onClick: function(){
-        console.log("button clikec");
-    },
-    clickBookMark: function(event){
-        event.stopPropagation();
-        console.log("clickBookMark ");
-    },
     render:function(){
-        this.$el.html(this.model.get('title') + "<button>Listen</button>  <button class=\"bookMark\">Book mark</button>");
+        this.$el.html(this.model.get('title') + " - Listeners: " + this.model.get("listeners"));
         return this;
     }
 });
