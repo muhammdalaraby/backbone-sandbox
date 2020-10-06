@@ -21,20 +21,6 @@
         <script src="js/lib/jquery-min.js"></script>
         <script src="js/lib/underscore-min.js"></script>
         <script src="js/lib/backbone-min.js"></script>
-
-        <!--  Create backbone template -->
-        <script id="songTemplate" type="text/html">
-        <!-- dynamic title -->
-        <%= title %>
-
-        <!-- listen button -->
-        <button>Listen</button>
-        
-        <!--  If plays > 1000 then display popular  -->
-        <% if(plays > 1000) {%>
-            <span class="popular">Popular</span>
-        <%}%>
-        </script>
         <script src="js/main.js"></script>
     </body>
 </html>

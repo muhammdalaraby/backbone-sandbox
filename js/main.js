@@ -5,37 +5,28 @@
 
 /*
 |--------------------------------------------------------------------------
-| How to listene to collection events
+| Events
 |--------------------------------------------------------------------------
-| Responsible for:
-|||| rendering the content
-|||| handling model and DOM events
-*/
+*/ 
 
+// Create new person object
+let person = {
+    name:"edmond",
 
-// Create  new song model
-let Song = Backbone.Model.extend();
-
-let SongView = Backbone.View.extend({
-    render:function(){
-        // Define template
-          let template = _.template($("#songTemplate").html());  
-        //associate template with html 
-        let html = template(this.model.toJSON());
-
-        // Display template on the dom
-        this.$el.html(html);
-
-        return this;
+    // Create new event called walking && publish this event
+    walk:function(){
+        // publish walking event
+        this.trigger("walking",{speed:2,startTime:"08:00"});
     }
+}
+// extend backbon events
+_.extend(person,Backbone.Events);
+
+// listen to walking event
+person.on("walking", function(event){
+    console.log("Person is walking");
+    console.log("Event args",event);
 })
 
-let song = new Song({title: "Blue in Green",plays:1001});
-
-// create song view insance
-let songView = new SongView({el:"#container",model:song});
-
-
-// render song view
-songView.render();
-
+person.off();
+person.walk();
