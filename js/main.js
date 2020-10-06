@@ -15,46 +15,38 @@
 // Create  new song model
 let Song = Backbone.Model.extend();
 
-// Create new songs collection
-let Songs = Backbone.Collection.extend({
-    model: Song
-});
-
 // Create new song view
 let SongView = Backbone.View.extend({
-    tagName:"li",
+  
+    // Create list event to handle Listen button click
+    events:{
+        // "click .listen":"onClick",
+        "click":"onClick",
+        "click .bookMark": "clickBookMark",
+    },
+
+    // Click function
+    onClick: function(){
+        console.log("button clikec");
+    },
+    clickBookMark: function(event){
+        event.stopPropagation();
+        console.log("clickBookMark ");
+    },
     render:function(){
-        this.$el.html(this.model.get('title'));
+        this.$el.html(this.model.get('title') + "<button>Listen</button>  <button class=\"bookMark\">Book mark</button>");
         return this;
     }
 });
 
-// Create new songs view
-let SongsView = Backbone.View.extend({
-   
-    render:function (){
-        // Store this in slef var to prevent throw an error
-        const SELF = this;
-    
-        // Iterate through collection models
-        this.model.each(function(song){
-            let songView =  new SongView({model:song});
-            // append song view element to the last item
-            SELF.$el.append(songView.render().$el);
-        });
-    }
-});
+
 
 
 // Fill songs data
-let songs = new Songs([
-    new Song({title:"Blue in Green"}),
-    new Song({title:"Blue in Green"}),
-    new Song({title:"Blue in Green"}),
-]);
+let song = new Song({title:"Blue in Green"});
 
 // create song view insance
-let songsView = new SongsView({el:"#container",model:songs});
+let songView = new SongView({el:"#container",model:song});
 
 // render song view
-songsView.render();
+songView.render();
