@@ -5,28 +5,98 @@
 
 /*
 |--------------------------------------------------------------------------
-| Events
+| Routers
 |--------------------------------------------------------------------------
 */ 
 
-// Create new person object
-let person = {
-    name:"edmond",
+/*
+|--------------------------------------------------------------------------
+| Views
+|--------------------------------------------------------------------------
+*/ 
+// Create views for navbar linkes
+let ArtistsView = Backbone.View.extend({
+    render:function(){
+        this.$el.html("ARTISTA BIEW");
+    },
+});
 
-    // Create new event called walking && publish this event
-    walk:function(){
-        // publish walking event
-        this.trigger("walking",{speed:2,startTime:"08:00"});
+let AlbumView = Backbone.View.extend({
+    render:function(){
+        this.$el.html("ALBUM BIEW");
+    },
+});
+
+let GenreView = Backbone.View.extend({
+    render:function(){
+        this.$el.html("GENRE VIEW");
+    },
+});
+
+/*
+|--------------------------------------------------------------------------
+| Routers
+|--------------------------------------------------------------------------
+*/ 
+
+let AppRouter = Backbone.Router.extend({
+    // Set views router
+    routes: {
+        "albums":"viewAlbums",
+        "ablums/:albumID": "viewAlbumById",
+        "artists":"viewArtists",
+        "genres":"viewGenres",
+        "*other":"defaultRoutes"
+    },
+    /******[  Functions  ]*******/
+    
+    //view albumes
+    viewAlbums:function(){
+        let view = new AlbumView({el:"#container"});
+        view.render();
+    },
+
+    //view Artists
+    viewArtists:function(){
+        let view = new ArtistsView({el:"#container"});
+        view.render();
+    },
+
+    //view genre
+    viewGenres:function(){
+        let view = new GenreView({el:"#container"});
+        view.render();
+    },
+    defaultRoute:function(){},
+});
+
+/*
+|--------------------------------------------------------------------------
+| Begin Actions
+|--------------------------------------------------------------------------
+*/ 
+
+// Create new router instance 
+let router = new AppRouter();
+
+// start listen to url
+Backbone.history.start();
+
+// create nav bar item and trigger them with routers
+
+let NavView = Backbone.View.extend({
+    events: {
+        "click":"onClick"
+    },
+    onClick:function(e){
+        // get li element
+        let $li = $(e.target);
+
+        router.navigate($li.attr("data-url"),{trigger:true});
+
     }
-}
-// extend backbon events
-_.extend(person,Backbone.Events);
+});
 
-// listen to walking event
-person.on("walking", function(event){
-    console.log("Person is walking");
-    console.log("Event args",event);
-})
+//Start nav view
+let navView =  new NavView({el:"#nav"});
 
-person.off();
-person.walk();
